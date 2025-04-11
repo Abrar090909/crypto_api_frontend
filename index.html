@@ -47,29 +47,44 @@
   </div>
 
   <script>
-    const BASE_URL = "https://crypto-api-2-4l3m.onrender.com";
+  const BASE_URL = "https://crypto-api-2-4l3m.onrender.com";
 
-    document.getElementById("predict-btn").addEventListener("click", async () => {
-      const date = document.getElementById("predict-date").value;
-      const result = document.getElementById("prediction-result");
-      result.textContent = "Predicting...";
-      const res = await fetch(`${BASE_URL}/predict?date=${date}`);
+  document.getElementById("predict-btn").addEventListener("click", async () => {
+    const date = document.getElementById("predict-date").value;
+    const result = document.getElementById("prediction-result");
+    result.textContent = "Predicting...";
+    try {
+      const res = await fetch(`${BASE_URL}/predict?date=${date}`, {
+        method: "POST"
+      });
       const data = await res.json();
       result.textContent = `Prediction for ${date}: ${data.action}`;
-    });
+    } catch (err) {
+      result.textContent = "Prediction failed.";
+      console.error(err);
+    }
+  });
 
-    document.getElementById("train-btn").addEventListener("click", async () => {
-      const episodes = document.getElementById("episodes").value;
-      const result = document.getElementById("train-result");
-      result.textContent = "Training started...";
-      const res = await fetch(`${BASE_URL}/train?episodes=${episodes}`);
+  document.getElementById("train-btn").addEventListener("click", async () => {
+    const episodes = document.getElementById("episodes").value;
+    const result = document.getElementById("train-result");
+    result.textContent = "Training started...";
+    try {
+      const res = await fetch(`${BASE_URL}/train?episodes=${episodes}`, {
+        method: "POST"
+      });
       const data = await res.json();
-      result.textContent = `Training completed. Avg Reward: ${data.avg_reward}`;
-    });
+      result.textContent = `Training completed. Total Reward: ${data.total_reward}`;
+    } catch (err) {
+      result.textContent = "Training failed.";
+      console.error(err);
+    }
+  });
 
-    document.getElementById("metrics-btn").addEventListener("click", async () => {
-      const result = document.getElementById("metrics-result");
-      result.textContent = "Loading metrics...";
+  document.getElementById("metrics-btn").addEventListener("click", async () => {
+    const result = document.getElementById("metrics-result");
+    result.textContent = "Loading metrics...";
+    try {
       const res = await fetch(`${BASE_URL}/metrics`);
       const data = await res.json();
       result.innerHTML = `
@@ -78,7 +93,10 @@
         <p>Profit %: ${data.profit_percent}</p>
         <p>Max Drawdown: ${data.max_drawdown}</p>
       `;
-    });
-  </script>
-</body>
-</html>
+    } catch (err) {
+      result.textContent = "Could not load metrics.";
+      console.error(err);
+    }
+  });
+</script>
+
