@@ -1,0 +1,23 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto AI Trader</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Crypto AI Trader</h1>
+        <div class="buttons">
+            <button onclick="trainModel()">Train Model</button>
+            <input type="date" id="predict-date" />
+            <button onclick="predict()">Predict</button>
+            <button onclick="getMetrics()">Show Metrics</button>
+        </div>
+        <div id="output" class="output"></div>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>
